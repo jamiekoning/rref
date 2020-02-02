@@ -2,6 +2,7 @@ var rows = 0;
 var cols = 0;
 
 var matrix = [];
+var rref = [];
 
 function createMatrix() {
   const rowsValue = document.getElementById("rows").value;
@@ -10,13 +11,10 @@ function createMatrix() {
   rows = Number(rowsValue);
   cols = Number(colsValue);
 
-  console.log(rows, cols);
-
   matrix = Array(rows)
     .fill()
     .map(() => Array(cols).fill(0));
 
-  console.log(matrix);
   printMatrix();
 }
 
@@ -102,7 +100,7 @@ function printSolvedMatrix() {
     return;
   }
 
-  if (matrix.length === 0) {
+  if (rref.length === 0) {
     return;
   }
 
@@ -124,7 +122,7 @@ function printSolvedMatrix() {
   header.innerHTML = "RREF Matrix:";
   matrixDiv.appendChild(header);
 
-  matrix.forEach((row, i) => {
+  rref.forEach((row, i) => {
     let rowDiv = document.createElement("div");
 
     row.forEach((col, j) => {
@@ -148,36 +146,38 @@ function handleClickReduce() {
 }
 
 function calculateRREF() {
+  rref = matrix.slice();
+
   let r = -1;
   let i = 0;
 
   for (let j = 0; j < cols; j++) {
     i = r + 1;
 
-    while (i < rows && matrix[i][j] === 0) {
+    while (i < rows && rref[i][j] === 0) {
       i += 1;
     }
 
     if (i < rows) {
       r += 1;
 
-      let swap = matrix[r];
-      matrix[r] = matrix[i];
-      matrix[i] = swap;
+      let swap = rref[r];
+      rref[r] = rref[i];
+      rref[i] = swap;
 
-      matrix[r] = matrix[r].map(val => {
-        val /= matrix[r][j];
+      rref[r] = rref[r].map(val => {
+        val /= rref[r][j];
         return val;
       });
 
       for (let k = 0; k < rows; k++) {
         if (k !== r) {
-          let rowMul = matrix[r].map(val => {
-            val *= -1 * matrix[k][j];
+          let rowMul = rref[r].map(val => {
+            val *= -1 * rref[k][j];
             return val;
           });
 
-          matrix[k] = matrix[k].map((val, i) => {
+          rref[k] = rref[k].map((val, i) => {
             val += rowMul[i];
             return val;
           });
@@ -188,7 +188,7 @@ function calculateRREF() {
 
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
-      matrix[i][j] = Number(matrix[i][j]).toFixed(2);
+      rref[i][j] = Number(rref[i][j]).toFixed(2);
     }
   }
 
