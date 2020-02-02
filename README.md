@@ -1,4 +1,4 @@
-# RREF Calculator for Linear Algebra
+# RREF Calculator
 A reduced row echelon form calculator for matrices.
 
 ## Usage
