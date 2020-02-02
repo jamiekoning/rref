@@ -6,14 +6,15 @@
 
   <body>
     <label for="matrix-rows">Rows</label>
-    <input type="number" name="matrix-rows" onchange="setRows(this.value)" />
+    <input type="number" name="matrix-rows" id="rows" />
 
     <label for="matrix-cols">Cols</label>
-    <input type="number" name="matrix-cols" onchange="setCols(this.value)" />
+    <input type="number" name="matrix-cols" id="cols" />
 
     <button value="Create" onclick="createMatrix()">Create</button>
-    <button value="Random" onclick="randomMatrix()">Random</button>
 
     <button type="button" onclick="handleClickReduce()">Reduce</button>
+
+    <button value="Random" onclick="randomMatrix()">Random Matrix</button>
   </body>
 </html>

@@ -3,19 +3,20 @@ var cols = 0;
 
 var matrix = [];
 
-function setRows(rowsCount) {
-  rows = Number(rowsCount);
-}
-
-function setCols(colsCount) {
-  cols = Number(colsCount);
-}
-
 function createMatrix() {
+  const rowsValue = document.getElementById("rows").value;
+  const colsValue = document.getElementById("cols").value;
+
+  rows = Number(rowsValue);
+  cols = Number(colsValue);
+
+  console.log(rows, cols);
+
   matrix = Array(rows)
     .fill()
     .map(() => Array(cols).fill(0));
 
+  console.log(matrix);
   printMatrix();
 }
 
