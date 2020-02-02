@@ -186,8 +186,17 @@ function calculateRREF() {
     }
   }
 
-  matrix.map(val => {
-    val = Number(val).toFixed(2);
-    return val;
-  });
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      matrix[i][j] = Number(matrix[i][j]).toFixed(2);
+    }
+  }
+
+  // matrix = matrix.map(row => {
+  //   row.map(val => {
+  //     val = Number(val).toFixed(2);
+  //     return val;
+  //   });
+  //   return row;
+  // });
 }
