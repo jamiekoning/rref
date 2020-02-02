@@ -1,11 +1,7 @@
-var rows = 3;
-var cols = 4;
+var rows = 0;
+var cols = 0;
 
-var matrix = [
-  [-7, -6, -12, -33],
-  [5, 5, 7, 24],
-  [1, 0, 4, 5]
-];
+var matrix = [];
 
 function setRows(rowsCount) {
   rows = Number(rowsCount);
@@ -16,13 +12,39 @@ function setCols(colsCount) {
 }
 
 function createMatrix() {
-  console.log("creating matrix with", rows, cols);
+  matrix = Array(rows)
+    .fill()
+    .map(() => Array(cols).fill(0));
+
+  printMatrix();
+}
+
+function randomInt(max) {
+  return parseInt(Math.random() * max, 10) + 1;
+}
+
+function randomMatrix() {
+  rows = randomInt(10);
+  cols = randomInt(10);
 
   matrix = Array(rows)
     .fill()
     .map(() => Array(cols).fill(0));
 
-  console.log(matrix);
+  const signWeight = randomInt(10);
+
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      let sign = 1;
+      const signRandom = randomInt(10);
+
+      if (signRandom >= signWeight) {
+        sign = -1;
+      }
+
+      matrix[i][j] = sign * randomInt(10);
+    }
+  }
 
   printMatrix();
 }
@@ -41,8 +63,15 @@ function printMatrix() {
     prevMatrixDiv.parentNode.removeChild(prevMatrixDiv);
   }
 
+  let prevSolvedMatrixDiv = document.getElementById("solvedMatrix");
+
+  if (prevSolvedMatrixDiv !== null) {
+    prevSolvedMatrixDiv.parentNode.removeChild(prevSolvedMatrixDiv);
+  }
+
   let matrixDiv = document.createElement("div");
   matrixDiv.setAttribute("id", "matrix");
+
   var header = document.createElement("h2");
   header.innerHTML = "Input Matrix:";
   matrixDiv.appendChild(header);
@@ -52,7 +81,7 @@ function printMatrix() {
 
     row.forEach((col, j) => {
       let matrixEntry = document.createElement("input");
-      matrixEntry.setAttribute("type", "number");
+      //matrixEntry.setAttribute("type", "number");
       matrixEntry.setAttribute("value", String(col));
       matrixEntry.setAttribute("row", i);
       matrixEntry.setAttribute("col", j);
@@ -68,21 +97,38 @@ function printMatrix() {
 }
 
 function printSolvedMatrix() {
+  if (rows === 0 && cols === 0) {
+    return;
+  }
+
+  if (matrix.length === 0) {
+    return;
+  }
+
+  let prevMatrixDiv = document.getElementById("solvedMatrix");
+
+  if (prevMatrixDiv !== null) {
+    prevMatrixDiv.parentNode.removeChild(prevMatrixDiv);
+  }
+
   var rule = document.createElement("hr");
-  document.body.append(rule);
+
+  let matrixDiv = document.createElement("div");
+
+  matrixDiv.setAttribute("id", "solvedMatrix");
+
+  matrixDiv.appendChild(rule);
 
   var header = document.createElement("h2");
   header.innerHTML = "RREF Matrix:";
-  document.body.append(header);
-
-  let matrixDiv = document.createElement("div");
+  matrixDiv.appendChild(header);
 
   matrix.forEach((row, i) => {
     let rowDiv = document.createElement("div");
 
     row.forEach((col, j) => {
       let matrixEntry = document.createElement("input");
-      matrixEntry.setAttribute("type", "number");
+      //matrixEntry.setAttribute("type", "number");
       matrixEntry.setAttribute("value", String(col));
       matrixEntry.setAttribute("readonly", "readonly");
 
@@ -123,10 +169,6 @@ function calculateRREF() {
         return val;
       });
 
-      matrix[r].forEach(val => {
-        console.log("val after mul", val);
-      });
-
       for (let k = 0; k < rows; k++) {
         if (k !== r) {
           let rowMul = matrix[r].map(val => {
@@ -143,7 +185,7 @@ function calculateRREF() {
     }
   }
 
-  matrix.forEach(val => {
+  matrix.map(val => {
     val = Number(val).toFixed(2);
     return val;
   });
