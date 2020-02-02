@@ -11,6 +11,10 @@ function createMatrix() {
   rows = Number(rowsValue);
   cols = Number(colsValue);
 
+  if (rows === 0 && cols === 0) {
+    return;
+  }
+
   matrix = Array(rows)
     .fill()
     .map(() => Array(cols).fill(0));
