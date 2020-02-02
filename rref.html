@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="rref.css" />
+    <script src="rref.js"></script>
+  </head>
+
+  <body>
+    <label for="matrix-rows">Rows</label>
+    <input type="number" name="matrix-rows" onchange="setRows(this.value)" />
+
+    <label for="matrix-cols">Cols</label>
+    <input type="number" name="matrix-cols" onchange="setCols(this.value)" />
+
+    <button value="Create" onclick="createMatrix()">Create</button>
+
+    <button type="button" onclick="handleClickReduce()">Reduce</button>
+  </body>
+</html>
